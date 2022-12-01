@@ -1,0 +1,205 @@
+﻿@using Data.Models;
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> _userManager;
+@inject IJSRuntime ijsr;
+@page "/UserManagment"
+<h3> <span class="oi oi-person" aria-hidden="true"></span>User Manager</h3>
+
+<button @onclick="CreateUserClicked" class="btn btn-black">
+    <span class="oi oi-plus" aria-hidden="true"></span>
+    Create new user
+</button>
+<br />
+<br />
+
+@if (Deleting)
+{
+    <h6>@DeletedText</h6>
+}
+@if (Editing)
+{
+    <div class="mb-3">
+        <label for="editFirstName" class="form-label">First Name</label>
+        <InputText class="form-control" id="editFirstName" @bind-Value="@EditingFirstName" type="text"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="editLastName" class="form-label">Surname</label>
+        <InputText class="form-control" id="editLastName" @bind-Value="@EditingSurname" type="text"></InputText>
+    </div>
+
+    <button @onclick="SaveUserChanges" class="btn btn-black">
+        <span class="oi oi-pencil" aria-hidden="true"></span>
+        Save user changes
+    </button>
+    <button @onclick="CancelSaveUserChanges" class="btn btn-black">
+        <span class="oi oi-x" aria-hidden="true"></span>
+        Cancel
+    </button>
+    <br/><br/>
+}
+@if (creating)
+{
+     @if (CreatingAlert != null && CreatingAlert.Length > 1)
+    {
+        <h6 style="color:red">@CreatingAlert</h6>
+    }
+    <div class="mb-3">
+        <label for="createFirstName" class="form-label">First Name</label>
+        <InputText class="form-control" id="createFirstName" @bind-Value="@CreatingFirstName" type="text"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="createLastName" class="form-label">Surname</label>
+        <InputText class="form-control" id="createSurname" @bind-Value="@CreatingSurname" type="text"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="createLastName" class="form-label">Email</label>
+        <InputText class="form-control" id="createEmail" @bind-Value="@CreatingEmailAddress" type="email"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="createPassword" class="form-label">Password</label>
+        <InputText class="form-control" id="createPassword" @bind-Value="@CreatingPassword" type="password"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="createPassword" class="form-label">Password</label>
+        <InputText class="form-control" id="createConfirmPassword" @bind-Value="@CreatingConfirmPassword" type="password"></InputText>
+    </div>
+
+    <button @onclick="CreateUser" class="btn btn-black">
+        <span class="oi oi-pencil" aria-hidden="true"></span>
+        Save user changes
+    </button>
+    <button @onclick="CancelCreateUsers" class="btn btn-black">
+        <span class="oi oi-x" aria-hidden="true"></span>
+        Cancel
+    </button>
+    <br/><br/>
+   
+}
+<QuickGrid Class="table table-striped table-bordered table-hover" Pagination="@pagination" @ref="userGrid" Items="@Users">
+    <PropertyColumn Property="@(p => p.UserName )" Sortable="true" />
+    <PropertyColumn Property="@(p => p.Email)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.LastName)" Sortable="true" />
+    <TemplateColumn Title="Actions">
+        <button class="btn btn-outline-secondary" @onclick="@(() => UpdateUserClick(context))">
+            <span class="oi oi-pencil" aria-hidden="true"></span>
+            Edit
+        </button>
+        <button class="btn btn-outline-secondary" @onclick="@(() => DeleteUser(context))">
+            <span class="oi oi-delete" aria-hidden="true"></span>
+            Delete
+        </button>
+    </TemplateColumn>
+</QuickGrid>
+<Paginator Value="@pagination" />
+<br />
+
+@code {
+    private IQueryable<ApplicationUser> Users { get; set; }
+    private ApplicationUser CurrentUser { get; set; }
+    private bool Editing = false;
+    private bool Deleting = false;
+    private bool creating = false;
+    private string DeletedText { get; set; }
+    private string EditingFirstName { get; set; }
+    private string EditingSurname { get; set; }
+    private string EditingId { get; set; }
+    private string CreatingFirstName { get; set; }
+    private string CreatingSurname { get; set; }
+    private string CreatingEmailAddress { get; set; }
+    private string CreatingPassword { get; set; }
+    private string CreatingConfirmPassword { get; set; }
+    private string CreatingAlert { get; set; }
+    QuickGrid<ApplicationUser> userGrid;
+    string nameFilter;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
+    protected override async Task OnInitializedAsync()
+    {
+        IQueryable<Data.Models.ApplicationUser> users = _userManager.Users;
+        Users = users.AsQueryable();
+    }
+
+    private void CreateUserClicked()
+    {
+        creating = true;
+    }
+
+    private async void CancelCreateUsers()
+    {
+        creating = false;
+    }
+
+    private async void CreateUser()
+    {
+        CreatingAlert = "";
+        if (CreatingPassword != CreatingConfirmPassword)
+        {
+            CreatingAlert = "Passwords must match.";
+        }
+        else if (CreatingFirstName.Length < 1 || CreatingSurname.Length < 1)
+        {
+            CreatingAlert = "First and Surname fields must be filled in";
+        }
+        else if (CreatingPassword.Length <= 7 || !CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
+        {
+            CreatingAlert = "Password must be at least 7 characters long and contain a symbol such as:$ or %.";
+        }
+        else
+        {
+            var resp = _userManager.CreateAsync(new ApplicationUser { FirstName = CreatingFirstName, LastName = CreatingSurname, UserName = CreatingEmailAddress, Email = CreatingEmailAddress }, CreatingPassword);
+            CreatingFirstName = "";
+            CreatingSurname = "";
+            CreatingEmailAddress = "";
+            CreatingPassword = "";
+            CreatingConfirmPassword = "";
+            creating = false;
+            //wait for the user create to set
+            await Task.Delay(1000);
+            await userGrid.RefreshDataAsync();
+        }
+        StateHasChanged();
+    }
+
+    private async void CancelSaveUserChanges()
+    {
+      Editing = false;
+    }
+    private async void SaveUserChanges()
+    {
+        var updateUser = await _userManager.FindByIdAsync(EditingId);
+        updateUser.FirstName = EditingFirstName;
+        updateUser.LastName = EditingSurname;
+        await _userManager.UpdateAsync(updateUser);
+        EditingFirstName = "";
+        EditingSurname = "";
+        EditingId = "";
+        //wait for the user create to set
+        Task.Delay(1000);
+        await userGrid.RefreshDataAsync();
+        Editing = false;
+        StateHasChanged();
+    }
+
+    private void UpdateUserClick(ApplicationUser user)
+    {
+        Editing = true;
+        EditingFirstName = user.FirstName;
+        EditingSurname = user.LastName;
+        EditingId = user.Id;
+    }
+    private async void DeleteUser(ApplicationUser user)
+    {
+        bool confirmed = await ijsr.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (confirmed)
+        {
+            CurrentUser = user;
+            DeletedText = $"Succesfully deleted user:{user.FirstName}";
+            Deleting = true;
+            var deleteUser = await _userManager.FindByNameAsync(user.UserName);
+            IdentityResult result = await _userManager.DeleteAsync(deleteUser);
+            Deleting = true;
+            await userGrid.RefreshDataAsync();
+        }
+    }
+}

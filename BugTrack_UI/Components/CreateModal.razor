@@ -1,0 +1,117 @@
+﻿@using BugTrack_UI.Store.Effects;
+@using BugTrack_UI.Store.State;
+@using Microsoft.AspNetCore.Identity;
+@inject IState<BugState> BugState
+@inject IDispatcher _Dispatcher
+@inject IJSRuntime ijsr;
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject UserManager<Data.Models.ApplicationUser> _userManager
+
+
+@if (BugState.Value.CreateBug is not null)
+{
+
+    <div class="modal fade show border-dark  fade-in" style="display:block; background-color: rgba(10,10,10,.8);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="oi oi-bug"></span>Create bug</h4>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <EditForm Model="@EditingBug" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="mb-3">
+                            <label for="editBugTitle" class="form-label">Bug Title</label>
+                            <InputText class="form-control" id="editBugTitle" @bind-Value="@EditingBug.Title" type="text"></InputText>
+                            <br />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editBugDescription" class="form-label">Bug Desription</label>
+                            <InputTextArea rows="10" class="form-control" id="editBugDescription" @bind-Value="@EditingBug.Description" type="text"></InputTextArea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBugStatus" class="form-label">Bug Status</label>
+                            <InputSelect class="form-select" id="editBugStatus" @bind-Value="EditingBug.BugStatus" rows="4" cols="50">
+                                @foreach (var stat in Enum.GetValues(typeof(BugStatus)))
+                                {
+                                    <option value="@stat">@stat</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBugPriority" class="form-label">Bug Priority</label>
+                            <InputSelect class="form-select" id="editBugPriority" @bind-Value="EditingBug.PriorityStatus">
+                                @foreach (var pstat in Enum.GetValues(typeof(Priority)))
+                                {
+                                    <option value="@pstat">@pstat</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="editBugAssignee" class="form-label">Bug Assignee</label>
+                            <InputSelect class="form-select" id="editSetAssignee" @bind-Value="EditingBug.AssignedTo">
+                                @foreach (var u in Users)
+                                {
+                                    <option value="@u.Email">@u.Email</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+
+
+                        <button class="btn btn-black" type="submit">
+                            <span class="oi oi-bug" aria-hidden="true"></span>
+                            Create Bug
+                        </button>
+                        <button class="btn btn-black" onclick="CloseModal">
+                            <span class="oi oi-x" aria-hidden="true"></span>
+                            Cancel
+                        </button>
+
+                    </EditForm>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public Bug? EditingBug { get; set; } = new Bug();
+
+    private IQueryable<Data.Models.ApplicationUser> Users { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        EditingBug.PriorityStatus = Priority.Low;
+        EditingBug.BugStatus = BugStatus.Open;
+        Users = _userManager.Users;
+        return base.OnParametersSetAsync();
+    }
+    private void HandleValidSubmit()
+    {
+        var authstate = GetAuthenticationStateAsync.GetAuthenticationStateAsync().Result;
+        var user = authstate.User;
+
+        _Dispatcher.Dispatch(new CreateBugSaveEffect.EffectCreateBug(EditingBug, user.Identity.Name, BugState.Value.AssignedToMe,BugState.Value.IncludeClosed));
+    }
+
+
+
+    private void CloseModal()
+    {
+        Task.Delay(800);
+        // _Dispatcher.Dispatch(new CreateBugSaveEffect.EffectCreateBug(EditingBug));
+    }
+
+
+}

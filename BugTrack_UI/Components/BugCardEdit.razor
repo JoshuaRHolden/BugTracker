@@ -1,0 +1,40 @@
+﻿@using BugTrack_UI.Store.Effects;
+@using BugTrack_UI.Store.State;
+@inject IState<BugState> BugState
+@inject IDispatcher _Dispatcher
+@inject IJSRuntime ijsr;
+
+
+<div class="col-md-6 col-lg-3 ">
+    <div class="card border-dark mb-3 h-100 g-4">
+        <div class="card-header">
+            <h5 class="card-title">@TheBug.Title</h5>
+        </div>
+        <div class="card-body m-0 p-0">
+            <p class="m-1 p-1">Bug Id: @TheBug.Id</p>
+            <p class="m-1 p-1">Priority: @TheBug.PriorityStatus</p>
+            <p class="m-1 p-1">Status: @TheBug.BugStatus</p>
+            <p class="m-1 p-1">Assignee: @TheBug.AssignedTo</p>
+        </div>
+        <div class="card-footer text-center">
+
+            <button type="button" @onclick="() => EditCurrentBug(TheBug.Id.Value)" class="btn btn-outline-white">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                Edit
+            </button>
+            <br />
+            <small class="text-muted">Bug logged by @TheBug.CreatedBy at <time>@TheBug.CreatedDate</time></small>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Bug? TheBug { get; set; }
+
+    protected void EditCurrentBug(int Id)
+    {
+        _Dispatcher.Dispatch(new EditBugEffect.EffectEditBug(Id));
+    }
+
+}
