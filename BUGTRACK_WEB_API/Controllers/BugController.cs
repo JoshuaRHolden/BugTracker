@@ -138,7 +138,8 @@ namespace BugTrack_WEB_API.Controllers
             }
             catch (Exception e)
             {
-                //TO DO LOG!                
+                //TO DO LOG!
+                _DatabaseContext.Bug.Remove(TheBug);
                 return BadRequest(new {Message ="An error occured while creating your bug, if this continues to happen please contact your support representitive, the error has been logged. "});
             }           
         }
