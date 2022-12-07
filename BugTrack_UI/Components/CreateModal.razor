@@ -10,7 +10,6 @@
 
 @if (BugState.Value.CreateBug is not null)
 {
-
     <div class="modal fade show border-dark  fade-in" style="display:block; background-color: rgba(10,10,10,.8);" aria-modal="true" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -24,7 +23,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <EditForm Model="@EditingBug" OnValidSubmit="@HandleValidSubmit">
-                        <DataAnnotationsValidator />
+                        <DataAnnotationsValidator />                        
                         <ValidationSummary />
                         <div class="mb-3">
                             <label for="editBugTitle" class="form-label">Bug Title</label>
@@ -92,7 +91,7 @@
 
     protected override Task OnParametersSetAsync()
     {
-        EditingBug.PriorityStatus = Priority.Low;
+        EditingBug!.PriorityStatus = Priority.Low;
         EditingBug.BugStatus = BugStatus.Open;
         Users = _userManager.Users;
         return base.OnParametersSetAsync();

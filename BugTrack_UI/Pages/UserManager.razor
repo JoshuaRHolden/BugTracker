@@ -1,115 +1,137 @@
-﻿@using Data.Models;
+﻿@using BugTrack_UI.Components
+@using BugTrack_UI.UIModels;
+@using Data.Models;
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<ApplicationUser> _userManager;
 @inject IJSRuntime ijsr;
 @page "/UserManagment"
+
+
+
+<AuthorizeView>
+    <Authorized>
+    </Authorized>
+    <NotAuthorized>
+        <RegisterUser></RegisterUser>
+    </NotAuthorized>
+</AuthorizeView>
+
 <h3> <span class="oi oi-person" aria-hidden="true"></span>User Manager</h3>
 
-<button @onclick="CreateUserClicked" class="btn btn-black">
-    <span class="oi oi-plus" aria-hidden="true"></span>
-    Create new user
-</button>
-<br />
-<br />
-
-@if (Deleting)
-{
-    <h6>@DeletedText</h6>
-}
-@if (Editing)
-{
-    <div class="mb-3">
-        <label for="editFirstName" class="form-label">First Name</label>
-        <InputText class="form-control" id="editFirstName" @bind-Value="@EditingFirstName" type="text"></InputText>
-    </div>
-    <div class="mb-3">
-        <label for="editLastName" class="form-label">Surname</label>
-        <InputText class="form-control" id="editLastName" @bind-Value="@EditingSurname" type="text"></InputText>
-    </div>
-
-    <button @onclick="SaveUserChanges" class="btn btn-black">
-        <span class="oi oi-pencil" aria-hidden="true"></span>
-        Save user changes
-    </button>
-    <button @onclick="CancelSaveUserChanges" class="btn btn-black">
-        <span class="oi oi-x" aria-hidden="true"></span>
-        Cancel
-    </button>
-    <br/><br/>
-}
-@if (creating)
-{
-     @if (CreatingAlert != null && CreatingAlert.Length > 1)
-    {
-        <h6 style="color:red">@CreatingAlert</h6>
-    }
-    <div class="mb-3">
-        <label for="createFirstName" class="form-label">First Name</label>
-        <InputText class="form-control" id="createFirstName" @bind-Value="@CreatingFirstName" type="text"></InputText>
-    </div>
-    <div class="mb-3">
-        <label for="createLastName" class="form-label">Surname</label>
-        <InputText class="form-control" id="createSurname" @bind-Value="@CreatingSurname" type="text"></InputText>
-    </div>
-    <div class="mb-3">
-        <label for="createLastName" class="form-label">Email</label>
-        <InputText class="form-control" id="createEmail" @bind-Value="@CreatingEmailAddress" type="email"></InputText>
-    </div>
-    <div class="mb-3">
-        <label for="createPassword" class="form-label">Password</label>
-        <InputText class="form-control" id="createPassword" @bind-Value="@CreatingPassword" type="password"></InputText>
-    </div>
-    <div class="mb-3">
-        <label for="createPassword" class="form-label">Password</label>
-        <InputText class="form-control" id="createConfirmPassword" @bind-Value="@CreatingConfirmPassword" type="password"></InputText>
-    </div>
-
-    <button @onclick="CreateUser" class="btn btn-black">
-        <span class="oi oi-pencil" aria-hidden="true"></span>
-        Save user changes
-    </button>
-    <button @onclick="CancelCreateUsers" class="btn btn-black">
-        <span class="oi oi-x" aria-hidden="true"></span>
-        Cancel
-    </button>
-    <br/><br/>
-   
-}
-<QuickGrid Class="table table-striped table-bordered table-hover" Pagination="@pagination" @ref="userGrid" Items="@Users">
-    <PropertyColumn Property="@(p => p.UserName )" Sortable="true" />
-    <PropertyColumn Property="@(p => p.Email)" Sortable="true" />
-    <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" />
-    <PropertyColumn Property="@(p => p.LastName)" Sortable="true" />
-    <TemplateColumn Title="Actions">
-        <button class="btn btn-outline-secondary" @onclick="@(() => UpdateUserClick(context))">
-            <span class="oi oi-pencil" aria-hidden="true"></span>
-            Edit
+        <button @onclick="CreateUserClicked" class="btn btn-black">
+            <span class="oi oi-plus" aria-hidden="true"></span>
+            Create new user
         </button>
-        <button class="btn btn-outline-secondary" @onclick="@(() => DeleteUser(context))">
-            <span class="oi oi-delete" aria-hidden="true"></span>
-            Delete
-        </button>
-    </TemplateColumn>
-</QuickGrid>
-<Paginator Value="@pagination" />
-<br />
+        <br />
+        <br />
+
+        @if (Deleting)
+        {
+            <h6>@DeletedText</h6>
+        }
+        @if (Editing)
+        {
+            <div class="mb-3">
+                <label for="editFirstName" class="form-label">First Name</label>
+                <InputText class="form-control" id="editFirstName" @bind-Value="@EditingUser.EditingFirstName" type="text"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="editLastName" class="form-label">Surname</label>
+                <InputText class="form-control" id="editLastName" @bind-Value="@EditingUser.EditingSurname" type="text"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="editLastName" class="form-label">Phone number</label>
+                <InputText class="form-control" id="editPhone" @bind-Value="@EditingUser.EditingPhone" type="text"></InputText>
+            </div>
+
+
+            <button @onclick="SaveUserChanges" class="btn btn-black">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                Save user changes
+            </button>
+            <button @onclick="CancelSaveUserChanges" class="btn btn-black">
+                <span class="oi oi-x" aria-hidden="true"></span>
+                Cancel
+            </button>
+            <br />
+
+            <br />
+        }
+        @if (creating)
+        {
+            @if (CreatingAlert != null && CreatingAlert.Length > 1)
+            {
+                <h6 style="color:red">@CreatingAlert</h6>
+            }
+            <div class="mb-3">
+                <label for="createFirstName" class="form-label">First Name</label>
+                <InputText class="form-control" id="createFirstName" @bind-Value="@CreatingUser.CreatingFirstName" type="text"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="createLastName" class="form-label">Surname</label>
+                <InputText class="form-control" id="createSurname" @bind-Value="@CreatingUser.CreatingSurname" type="text"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="createLastName" class="form-label">Email</label>
+                <InputText class="form-control" id="createEmail" @bind-Value="@CreatingUser.CreatingEmailAddress" type="email"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="createPhone" class="form-label">Phone number</label>
+                <InputText class="form-control" id="createPhone" @bind-Value="@CreatingUser.CreatingPhone" type="text"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="createPassword" class="form-label">Password</label>
+                <InputText class="form-control" id="createPassword" @bind-Value="@CreatingUser.CreatingPassword" type="password"></InputText>
+            </div>
+            <div class="mb-3">
+                <label for="createPassword" class="form-label"> Confirm Password</label>
+                <InputText class="form-control" id="createConfirmPassword" @bind-Value="@CreatingUser.CreatingConfirmPassword" type="password"></InputText>
+            </div>
+
+            <button @onclick="CreateUser" class="btn btn-black">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                Save user changes
+            </button>
+            <button @onclick="CancelCreateUsers" class="btn btn-black">
+                <span class="oi oi-x" aria-hidden="true"></span>
+                Cancel
+            </button>
+            <br />
+
+            <br />
+
+        }
+
+        <QuickGrid Class="table table-striped table-bordered table-hover" Pagination="@pagination" @ref="userGrid" Items="@Users">
+            <PropertyColumn Property="@(p => p.UserName )" Sortable="true" />
+            <PropertyColumn Property="@(p => p.Email)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.LastName)" Sortable="true" />
+            <PropertyColumn Property="@(p => p.PhoneNumber )" Sortable="true" />
+            <TemplateColumn  Title="Actions">
+                <button class="btn btn-outline-secondary" @onclick="@(() => UpdateUserClick(context))">
+                    <span class="oi oi-pencil" aria-hidden="true"></span>
+                    Edit
+                </button>
+                <button class="btn btn-outline-secondary" @onclick="@(() => DeleteUser(context))">
+                    <span class="oi oi-delete" aria-hidden="true"></span>
+                    Delete
+                </button>
+            </TemplateColumn>
+        </QuickGrid>
+        <Paginator Value="@pagination" />
+        <br />
 
 @code {
     private IQueryable<ApplicationUser> Users { get; set; }
     private ApplicationUser CurrentUser { get; set; }
+    private EditUser EditingUser = new EditUser();
+    private CreateUser CreatingUser = new CreateUser();
     private bool Editing = false;
     private bool Deleting = false;
     private bool creating = false;
     private string DeletedText { get; set; }
-    private string EditingFirstName { get; set; }
-    private string EditingSurname { get; set; }
-    private string EditingId { get; set; }
-    private string CreatingFirstName { get; set; }
-    private string CreatingSurname { get; set; }
-    private string CreatingEmailAddress { get; set; }
-    private string CreatingPassword { get; set; }
-    private string CreatingConfirmPassword { get; set; }
     private string CreatingAlert { get; set; }
     QuickGrid<ApplicationUser> userGrid;
     string nameFilter;
@@ -133,28 +155,28 @@
     private async void CreateUser()
     {
         CreatingAlert = "";
-        if (CreatingPassword != CreatingConfirmPassword)
+        if (CreatingUser.CreatingPassword != CreatingUser.CreatingConfirmPassword)
         {
             CreatingAlert = "Passwords must match.";
         }
-        else if (CreatingFirstName.Length < 1 || CreatingSurname.Length < 1)
+        else if (CreatingUser.CreatingFirstName.Length < 1 || CreatingUser.CreatingSurname.Length < 1)
         {
             CreatingAlert = "First and Surname fields must be filled in";
         }
-        else if (CreatingPassword.Length <= 7 || !CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
+        else if (CreatingUser.CreatingPassword.Length <= 7 || !CreatingUser.CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
         {
             CreatingAlert = "Password must be at least 7 characters long and contain a symbol such as:$ or %.";
         }
         else
         {
-            var resp = _userManager.CreateAsync(new ApplicationUser { FirstName = CreatingFirstName, LastName = CreatingSurname, UserName = CreatingEmailAddress, Email = CreatingEmailAddress }, CreatingPassword);
-            CreatingFirstName = "";
-            CreatingSurname = "";
-            CreatingEmailAddress = "";
-            CreatingPassword = "";
-            CreatingConfirmPassword = "";
+            var resp = _userManager.CreateAsync(new ApplicationUser { FirstName = CreatingUser.CreatingFirstName, LastName = CreatingUser.CreatingSurname, UserName = CreatingUser.CreatingEmailAddress, Email = CreatingUser.CreatingEmailAddress, PhoneNumber = CreatingUser.CreatingPhone }, CreatingUser.CreatingPassword);
+            CreatingUser.CreatingFirstName = "";
+            CreatingUser.CreatingSurname = "";
+            CreatingUser.CreatingEmailAddress = "";
+            CreatingUser.CreatingPassword = "";
+            CreatingUser.CreatingPhone = "";
+            CreatingUser.CreatingConfirmPassword = "";
             creating = false;
-            //wait for the user create to set
             await Task.Delay(1000);
             await userGrid.RefreshDataAsync();
         }
@@ -163,19 +185,18 @@
 
     private async void CancelSaveUserChanges()
     {
-      Editing = false;
+        Editing = false;
     }
     private async void SaveUserChanges()
     {
-        var updateUser = await _userManager.FindByIdAsync(EditingId);
-        updateUser.FirstName = EditingFirstName;
-        updateUser.LastName = EditingSurname;
+        var updateUser = await _userManager.FindByIdAsync(EditingUser.EditingId);
+        updateUser.FirstName = EditingUser.EditingFirstName;
+        updateUser.LastName = EditingUser.EditingSurname;
+        updateUser.PhoneNumber = EditingUser.EditingPhone;
         await _userManager.UpdateAsync(updateUser);
-        EditingFirstName = "";
-        EditingSurname = "";
-        EditingId = "";
-        //wait for the user create to set
-        Task.Delay(1000);
+        EditingUser.EditingFirstName = "";
+        EditingUser.EditingSurname = "";
+        EditingUser.EditingId = "";
         await userGrid.RefreshDataAsync();
         Editing = false;
         StateHasChanged();
@@ -184,9 +205,9 @@
     private void UpdateUserClick(ApplicationUser user)
     {
         Editing = true;
-        EditingFirstName = user.FirstName;
-        EditingSurname = user.LastName;
-        EditingId = user.Id;
+        EditingUser.EditingFirstName = user.FirstName;
+        EditingUser.EditingSurname = user.LastName;
+        EditingUser.EditingId = user.Id;
     }
     private async void DeleteUser(ApplicationUser user)
     {

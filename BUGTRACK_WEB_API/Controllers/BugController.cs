@@ -49,7 +49,7 @@ namespace BugTrack_WEB_API.Controllers
                 var BugsFound = _DatabaseContext.Bug
                     .Where(x=>x.CreatedBy == UserName)
                     .OrderByDescending(x=>x.CreatedDate).ToList();
-                if (BugsFound != null)
+                if (BugsFound != null && BugsFound.Count > 0)
                 {
                     return Ok(BugsFound);
                 }

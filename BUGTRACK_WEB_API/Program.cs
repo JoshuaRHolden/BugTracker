@@ -1,5 +1,7 @@
 using BugTrack_UI.Context;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,19 +14,20 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+builder.WebHost.UseKestrel(serverOptions =>
 {
+    
+    serverOptions.ListenLocalhost(5203);
+    serverOptions.ListenLocalhost(7164, listenOptions => listenOptions.UseHttps());
+});
+var app = builder.Build();
+//in a real app you would want to hide this behind a dev check.. but including for ease of use 
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
