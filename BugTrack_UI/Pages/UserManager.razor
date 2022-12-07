@@ -32,6 +32,18 @@
         }
         @if (Editing)
         {
+                <div class="modal fade show border-dark  fade-in" style="display:block; background-color: rgba(10,10,10,.8);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="oi oi-pencil"></span>Edit User</h4>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
             <div class="mb-3">
                 <label for="editFirstName" class="form-label">First Name</label>
                 <InputText class="form-control" id="editFirstName" @bind-Value="@EditingUser.EditingFirstName" type="text"></InputText>
@@ -54,12 +66,27 @@
                 <span class="oi oi-x" aria-hidden="true"></span>
                 Cancel
             </button>
-            <br />
 
-            <br />
+                </div>
+
+            </div>
+        </div>
+    </div>
         }
         @if (creating)
         {
+              <div class="modal fade show border-dark  fade-in" style="display:block; background-color: rgba(10,10,10,.8);" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="oi oi-people"></span>Create User</h4>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
             @if (CreatingAlert != null && CreatingAlert.Length > 1)
             {
                 <h6 style="color:red">@CreatingAlert</h6>
@@ -100,7 +127,12 @@
             <br />
 
             <br />
+                         
+                </div>
 
+            </div>
+        </div>
+    </div>
         }
 
         <QuickGrid Class="table table-striped table-bordered table-hover" Pagination="@pagination" @ref="userGrid" Items="@Users">
