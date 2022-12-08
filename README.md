@@ -1,6 +1,6 @@
 **Installation Guide**
 
-**Please note this application is written in .Net 7, and as such, if not already installed will need the runtimes downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)**
+**Please note this application is written in .Net 7, and as such, if not already installed will need the runtime downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)**
 
  1. Clone the solution from: [https://github.com/JoshuaRHolden/BugTracker](https://github.com/JoshuaRHolden/BugTracker)  
 
