@@ -127,6 +127,10 @@ namespace BugTrack_WEB_API.Controllers
         [HttpPost("CreateBug")]
         public ActionResult CreateBug(Bug TheBug)
         {
+            if(String.IsNullOrEmpty(TheBug.Title) || String.IsNullOrEmpty(TheBug.Description))
+            {
+                return BadRequest("Please provide a bug title and description");
+            }
             try
             {
                 _DatabaseContext.Bug.Add(TheBug);
