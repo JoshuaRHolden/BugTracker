@@ -45,7 +45,7 @@ On the user page, you can change the users name and other properties as well as 
 
 **IDEAL ENHANCMENTS**  
   
-i: Delete bug (although cancelling allows a bug to be hidden It would probably be useful to be able to fully delete a bug, but this was not included in the specification) 
+i: Delete bug (although closing allows a bug to be hidden It would probably be useful to be able to fully delete a bug, but this was not included in the specification) 
 
 ii: bug attachments, allow users to upload screenshots to assist with dealing with the bug.
 
