@@ -1,7 +1,5 @@
 using BugTrack_UI.Context;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,17 +15,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.WebHost.UseKestrel(serverOptions =>
 {
-    
     serverOptions.ListenLocalhost(5203);
     serverOptions.ListenLocalhost(7164, listenOptions => listenOptions.UseHttps());
 });
 var app = builder.Build();
-//in a real app you would want to hide this behind a dev check.. but including for ease of use 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+//in a real app you would want to hide this behind a dev check.. but including for ease of use
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();

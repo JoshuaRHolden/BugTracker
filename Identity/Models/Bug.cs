@@ -12,7 +12,7 @@ namespace AppData.Models
         public DateTime? UpdatedDate { get; } = DateTime.Now;
         public string? CreatedBy { get; set; }
 
-        public String AssignedTo { get; set; }
+        public String? AssignedTo { get; set; }
 
         public BugStatus? BugStatus { get; set; }
         public Priority? PriorityStatus { get; set; }
@@ -21,6 +21,5 @@ namespace AppData.Models
         {
             CreatedBy = string.Empty;
         }
-
     }
 }

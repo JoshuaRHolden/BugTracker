@@ -55,6 +55,7 @@ namespace BugTrack_UI.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
             public string FirstName { get; set; }
             public string LastName { get; set; }
         }
@@ -67,7 +68,6 @@ namespace BugTrack_UI.Areas.Identity.Pages.Account.Manage
             var fName = dbuser.FirstName;
             var lname = dbuser.LastName;
             Username = userName;
-
 
             Input = new InputModel
             {

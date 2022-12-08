@@ -1,12 +1,8 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
-
-
 html, body {
     font-family: 'Montserrat', sans-serif;
 }
-
-
 
 h1:focus {
     outline: none;
@@ -23,7 +19,7 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .content {
@@ -71,11 +67,9 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
-
 .fade-in {
     animation: fadeIn 1s;
 }
-
 
 @keyframes fadeIn {
     0% {
@@ -87,26 +81,27 @@ a, .btn-link {
     }
 }
 
-.modal-dialog{
-    max-width:800px!important;
+.modal-dialog {
+    max-width: 800px !important;
 }
 
 .modal-header {
-    background-color: black!important;
-    color:white!important;
-    
+    background-color: black !important;
+    color: white !important;
 }
+
 .card-header {
     background-color: black !important;
     color: white !important;
 }
+
 .card-footer {
-    background-color: black!important;
-    color:white!important;
+    background-color: black !important;
+    color: white !important;
 }
 
-.modal-footer{
-    background-color: black !important;    
+.modal-footer {
+    background-color: black !important;
     color: white !important;
 }
 
@@ -115,18 +110,21 @@ a, .btn-link {
 }
 
 .btn-outline-white {
-    color: white!important;
-    border-color: white!important;
+    color: white !important;
+    border-color: white !important;
 }
+
 .group-black {
     background-color: black !important;
     color: white !important;
 }
+
 .btn-black {
     color: black;
-    border-color:black;
+    border-color: black;
 }
-.btn-black:hover {
-    color: white;
-    background-color: black;
-}
+
+    .btn-black:hover {
+        color: white;
+        background-color: black;
+    }

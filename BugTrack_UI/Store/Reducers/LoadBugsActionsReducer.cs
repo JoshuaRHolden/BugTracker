@@ -1,5 +1,4 @@
-﻿using AppData.Models;
-using BugTrack_UI.Store.Actions;
+﻿using BugTrack_UI.Store.Actions;
 using BugTrack_UI.Store.State;
 using Fluxor;
 
@@ -27,15 +26,13 @@ namespace BugTrack_UI.Store.Reducers
         public static BugState OnOpenCreateBug(BugState state, ActionCreateBug action) =>
        state with { CreateBug = action.newBug, Messages = $"called reducer method OnSaveCreateBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
 
-
         [ReducerMethod]
         public static BugState OnOpenCreateBug(BugState state, ActionCreateSaveBug action) =>
        state with { CreateBug = null, Messages = $"called reducer method OnSaveCreateBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
 
-
         [ReducerMethod]
         public static BugState ReduceLoadBugsuccessAction(BugState state, LoadBugSuccessAction action) =>
-            state with { CurrentBugs = action.Bugs, IsLoading = false, Messages =  $"called reducer method ReduceLoadBugsuccessAction with state values IsLoading:{state.IsLoading}, search text:{state.SearchText} " };            
+            state with { CurrentBugs = action.Bugs, IsLoading = false, Messages = $"called reducer method ReduceLoadBugsuccessAction with state values IsLoading:{state.IsLoading}, search text:{state.SearchText} " };
 
         [ReducerMethod]
         public static BugState ReduceLoadBugsFailureAction(BugState state, LoadBugFailureAction action) =>
@@ -48,8 +45,5 @@ namespace BugTrack_UI.Store.Reducers
         [ReducerMethod]
         public static BugState ReduceIncludeCancelledCheckboxAction(BugState state, ActionIncludeCancelledCheckChanged action) =>
           state with { IncludeClosed = action.Selected, Messages = $"called reducer method ReduceLoadBugsFailureAction with state values IsLoading:{state.IsLoading}, search text:{state.SearchText} " };
-
-
-
     }
 }

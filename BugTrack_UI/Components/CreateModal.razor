@@ -27,7 +27,7 @@
                         <ValidationSummary />
                         <div class="mb-3">
                             <label for="editBugTitle" class="form-label">Bug Title</label>
-                            <InputText class="form-control" id="editBugTitle" @bind-Value="@EditingBug.Title" type="text"></InputText>
+                            <InputText class="form-control" id="editBugTitle" @bind-Value="@EditingBug!.Title" type="text"></InputText>
                             <br />
                         </div>
 
@@ -58,7 +58,7 @@
                         <div class="mb-3">
                             <label for="editBugAssignee" class="form-label">Bug Assignee</label>
                             <InputSelect class="form-select" id="editSetAssignee" @bind-Value="EditingBug.AssignedTo">
-                                @foreach (var u in Users)
+                                @foreach (var u in Users!)
                                 {
                                     <option value="@u.Email">@u.Email</option>
                                 }
@@ -87,7 +87,7 @@
     [Parameter]
     public Bug? EditingBug { get; set; } = new Bug();
 
-    private IQueryable<Data.Models.ApplicationUser> Users { get; set; }
+    private IQueryable<Data.Models.ApplicationUser>? Users { get; set; }
 
     protected override Task OnParametersSetAsync()
     {
@@ -101,7 +101,7 @@
         var authstate = GetAuthenticationStateAsync.GetAuthenticationStateAsync().Result;
         var user = authstate.User;
 
-        _Dispatcher.Dispatch(new CreateBugSaveEffect.EffectCreateBug(EditingBug, user.Identity.Name, BugState.Value.AssignedToMe,BugState.Value.IncludeClosed));
+        _Dispatcher.Dispatch(new CreateBugSaveEffect.EffectCreateBug(EditingBug!, user!.Identity!.Name!, BugState.Value.AssignedToMe,BugState.Value.IncludeClosed));
     }
 
 

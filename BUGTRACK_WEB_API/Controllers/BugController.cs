@@ -1,11 +1,6 @@
-﻿using AppData;
-using AppData.Models;
+﻿using AppData.Models;
 using BugTrack_UI.Context;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BugTrack_WEB_API.Controllers
 {
@@ -14,10 +9,12 @@ namespace BugTrack_WEB_API.Controllers
     public class BugController : Controller
     {
         public ApplicationDbContext _DatabaseContext;
+
         public BugController(ApplicationDbContext applicationDbContext)
         {
             _DatabaseContext = applicationDbContext;
         }
+
         [HttpGet("SearchBugs")]
         public ActionResult SearchBugs(System.String SearchQuery)
         {
@@ -25,7 +22,7 @@ namespace BugTrack_WEB_API.Controllers
             {
                 var BugsFound = _DatabaseContext.Bug
                     .Where(x => x.Title!.Contains(SearchQuery) || x.Description!.Contains(SearchQuery))
-                    .OrderByDescending(x => x.CreatedDate);                    
+                    .OrderByDescending(x => x.CreatedDate);
                 if (BugsFound != null)
                 {
                     return Ok(BugsFound);
@@ -35,20 +32,21 @@ namespace BugTrack_WEB_API.Controllers
                     return BadRequest(new { Message = "No bugs exist" });
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                //TO DO LOG!                
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bugxs, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
+
         [HttpGet("GetBugsCreatedBy")]
         public ActionResult GetBugsCreatedBy(string UserName)
         {
             try
             {
                 var BugsFound = _DatabaseContext.Bug
-                    .Where(x=>x.CreatedBy == UserName)
-                    .OrderByDescending(x=>x.CreatedDate).ToList();
+                    .Where(x => x.CreatedBy == UserName)
+                    .OrderByDescending(x => x.CreatedDate).ToList();
                 if (BugsFound != null && BugsFound.Count > 0)
                 {
                     return Ok(BugsFound);
@@ -58,9 +56,9 @@ namespace BugTrack_WEB_API.Controllers
                     return BadRequest(new { Message = "No bugs exist" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //TO DO LOG!                
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bugxs, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
@@ -71,7 +69,7 @@ namespace BugTrack_WEB_API.Controllers
             try
             {
                 var BugsFound = _DatabaseContext.Bug
-                    .OrderByDescending(x => x.CreatedDate);                    
+                    .OrderByDescending(x => x.CreatedDate);
                 if (BugsFound != null)
                 {
                     return Ok(BugsFound);
@@ -81,9 +79,9 @@ namespace BugTrack_WEB_API.Controllers
                     return BadRequest(new { Message = "No bugs exist" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //TO DO LOG!                
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bugxs, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
@@ -101,11 +99,11 @@ namespace BugTrack_WEB_API.Controllers
                 else
                 {
                     return BadRequest(new { Message = "No bug with this ID exists" });
-                }               
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //TO DO LOG!                
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bug, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
@@ -114,18 +112,17 @@ namespace BugTrack_WEB_API.Controllers
         public ActionResult UpdateBug(int Id, [FromBody] Bug ChangedBug)
         {
             try
-            {         
-                    _DatabaseContext.Update(ChangedBug);
-                    _DatabaseContext.SaveChanges();
-                    return Ok(ChangedBug);               
-            }
-            catch (Exception e)
             {
-                //TO DO LOG!                
+                _DatabaseContext.Update(ChangedBug);
+                _DatabaseContext.SaveChanges();
+                return Ok(ChangedBug);
+            }
+            catch (Exception)
+            {
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bug, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
-
 
         [HttpPost("CreateBug")]
         public ActionResult CreateBug(Bug TheBug)
@@ -136,13 +133,14 @@ namespace BugTrack_WEB_API.Controllers
                 _DatabaseContext.SaveChanges();
                 return Ok(TheBug);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //TO DO LOG!
                 _DatabaseContext.Bug.Remove(TheBug);
-                return BadRequest(new {Message ="An error occured while creating your bug, if this continues to happen please contact your support representitive, the error has been logged. "});
-            }           
+                return BadRequest(new { Message = "An error occured while creating your bug, if this continues to happen please contact your support representitive, the error has been logged. " });
+            }
         }
+
         [HttpPost("DeleteBug")]
         public ActionResult DeleteBug(int Id)
         {
@@ -160,13 +158,11 @@ namespace BugTrack_WEB_API.Controllers
                 }
                 return Ok(new { Message = "Bug deleted successfully." });
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //TO DO LOG!                
+                //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while deleting your bug, if this continues to happen please contact your support representitive, the error has been logged. " });
             }
         }
-
-
     }
 }

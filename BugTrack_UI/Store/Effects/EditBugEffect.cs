@@ -4,14 +4,13 @@ using Fluxor;
 
 namespace BugTrack_UI.Store.Effects
 {
-
-
     public class EditBugEffect : Effect<EditBugEffect.EffectEditBug>
     {
         public record EffectEditBug(int Id);
         private readonly ILogger<EditBugEffect> _logger;
         private readonly IHttpClientFactory _httpClient;
         private readonly IConfiguration _config;
+
         public EditBugEffect(ILogger<EditBugEffect> logger, IHttpClientFactory httpClient, IConfiguration config) =>
             (_logger, _httpClient, _config) = (logger, httpClient, config);
 
@@ -26,16 +25,13 @@ namespace BugTrack_UI.Store.Effects
                 var bugResponse = await client.GetFromJsonAsync<Bug>(url + $"/Bug/GetBugById?Id={action.Id}");
 
                 _logger.LogInformation("bugs loaded successfully!");
-                dispatcher.Dispatch(new ActionEditBug(bugResponse));
+                dispatcher.Dispatch(new ActionEditBug(bugResponse!));
             }
             catch (Exception e)
             {
                 _logger.LogError($"bugs loading bugs, reason: {e.Message}");
                 dispatcher.Dispatch(new LoadBugFailureAction(e.Message));
             }
-
         }
-
-
     }
 }

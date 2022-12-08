@@ -156,18 +156,18 @@
         <br />
 
 @code {
-    private IQueryable<ApplicationUser> Users { get; set; }
-    private ApplicationUser CurrentUser { get; set; }
+    private IQueryable<ApplicationUser>? Users { get; set; }
+    private ApplicationUser? CurrentUser { get; set; }
     private EditUser EditingUser = new EditUser();
     private CreateUser CreatingUser = new CreateUser();
     private bool Editing = false;
     private bool Deleting = false;
     private bool creating = false;
-    private string DeletedText { get; set; }
-    private string CreatingAlert { get; set; }
-    QuickGrid<ApplicationUser> userGrid;
-    string nameFilter;
+    private string? DeletedText { get; set; }
+    private string? CreatingAlert { get; set; }
+    QuickGrid<ApplicationUser>? userGrid;
     PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
+    
     protected override async Task OnInitializedAsync()
     {
         IQueryable<Data.Models.ApplicationUser> users = _userManager.Users;
@@ -179,7 +179,7 @@
         creating = true;
     }
 
-    private async void CancelCreateUsers()
+    private  void CancelCreateUsers()
     {
         creating = false;
     }
@@ -191,11 +191,11 @@
         {
             CreatingAlert = "Passwords must match.";
         }
-        else if (CreatingUser.CreatingFirstName.Length < 1 || CreatingUser.CreatingSurname.Length < 1)
+        else if (CreatingUser!.CreatingFirstName!.Length < 1 || CreatingUser!.CreatingSurname!.Length < 1)
         {
             CreatingAlert = "First and Surname fields must be filled in";
         }
-        else if (CreatingUser.CreatingPassword.Length <= 7 || !CreatingUser.CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
+        else if (CreatingUser!.CreatingPassword!.Length <= 7 || !CreatingUser.CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
         {
             CreatingAlert = "Password must be at least 7 characters long and contain a symbol such as:$ or %.";
         }
@@ -210,26 +210,26 @@
             CreatingUser.CreatingConfirmPassword = "";
             creating = false;
             await Task.Delay(1000);
-            await userGrid.RefreshDataAsync();
+            await userGrid!.RefreshDataAsync();
         }
         StateHasChanged();
     }
 
-    private async void CancelSaveUserChanges()
+    private  void CancelSaveUserChanges()
     {
         Editing = false;
     }
     private async void SaveUserChanges()
     {
-        var updateUser = await _userManager.FindByIdAsync(EditingUser.EditingId);
-        updateUser.FirstName = EditingUser.EditingFirstName;
+        var updateUser = await _userManager.FindByIdAsync(EditingUser!.EditingId!);
+        updateUser!.FirstName = EditingUser.EditingFirstName;
         updateUser.LastName = EditingUser.EditingSurname;
         updateUser.PhoneNumber = EditingUser.EditingPhone;
         await _userManager.UpdateAsync(updateUser);
         EditingUser.EditingFirstName = "";
         EditingUser.EditingSurname = "";
         EditingUser.EditingId = "";
-        await userGrid.RefreshDataAsync();
+        await userGrid!.RefreshDataAsync();
         Editing = false;
         StateHasChanged();
     }
@@ -249,10 +249,10 @@
             CurrentUser = user;
             DeletedText = $"Succesfully deleted user:{user.FirstName}";
             Deleting = true;
-            var deleteUser = await _userManager.FindByNameAsync(user.UserName);
-            IdentityResult result = await _userManager.DeleteAsync(deleteUser);
+            var deleteUser = await _userManager.FindByNameAsync(user!.UserName!);
+            IdentityResult result = await _userManager.DeleteAsync(deleteUser!);
             Deleting = true;
-            await userGrid.RefreshDataAsync();
+            await userGrid!.RefreshDataAsync();
         }
     }
 }

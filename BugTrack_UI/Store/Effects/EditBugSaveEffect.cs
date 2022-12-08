@@ -5,14 +5,13 @@ using System.Text;
 
 namespace BugTrack_UI.Store.Effects
 {
-
-
     public class EditBugSaveEffect : Effect<EditBugSaveEffect.EffectSaveBug>
     {
-        public record EffectSaveBug(Bug bug, string UserName,bool AssignedToMe, bool IncludeClosed);
+        public record EffectSaveBug(Bug bug, string UserName, bool AssignedToMe, bool IncludeClosed);
         private readonly ILogger<EditBugSaveEffect> _logger;
         private readonly IHttpClientFactory _httpClient;
         private readonly IConfiguration _config;
+
         public EditBugSaveEffect(ILogger<EditBugSaveEffect> logger, IHttpClientFactory httpClient, IConfiguration config) =>
             (_logger, _httpClient, _config) = (logger, httpClient, config);
 
@@ -36,9 +35,6 @@ namespace BugTrack_UI.Store.Effects
                 _logger.LogError($"bugs saving bugs, reason: {e.Message}");
                 dispatcher.Dispatch(new LoadBugFailureAction(e.Message));
             }
-
         }
-
-
     }
 }

@@ -6,4 +6,3 @@ public record BugState(bool IsLoading, string? CurrentErrorMessage, IEnumerable<
 {
     public bool HasCurrentErrors => !string.IsNullOrWhiteSpace(CurrentErrorMessage);
 }
-

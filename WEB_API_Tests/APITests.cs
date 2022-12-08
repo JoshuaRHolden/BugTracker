@@ -13,9 +13,10 @@ namespace WEB_API_Tests
     {
         private ApplicationDbContext? _Context { get; set; }
         private BugController? _BugController { get; set; }
+
         #region setup and teardown
+
         [OneTimeSetUp]
-        //Create an in memory testing EF context for passing into the controller.
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -34,7 +35,6 @@ namespace WEB_API_Tests
                     Id = 1,
                     PriorityStatus = Priority.Critical,
                     Title = "test",
-
                 },
                 new Bug
                 {
@@ -60,11 +60,9 @@ namespace WEB_API_Tests
                 });
             _Context.SaveChanges();
             _BugController = new BugController(_Context);
-
         }
 
-        #endregion
-
+        #endregion setup and teardown
 
         [Test]
         public void Get_Returns3Bugs()
@@ -94,7 +92,6 @@ namespace WEB_API_Tests
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), bugs as BadRequestObjectResult);
         }
 
-
         [Test]
         public void GetCreatedBy_Returns3Bug()
         {
@@ -114,8 +111,6 @@ namespace WEB_API_Tests
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), bugs as BadRequestObjectResult);
         }
 
-
-
         [Test]
         public void CreateBug_CreatesBug()
         {
@@ -132,7 +127,7 @@ namespace WEB_API_Tests
         {
             var bugs = _BugController!.CreateBug(new Bug { Id = null });
             var Result = (bugs as BadRequestObjectResult)!.Value;
-            Assert.AreEqual("{ Message = An error occured while creating your bug, if this continues to happen please contact your support representitive, the error has been logged.  }", Result.ToString());
+            Assert.AreEqual("{ Message = An error occured while creating your bug, if this continues to happen please contact your support representitive, the error has been logged.  }", Result!.ToString());
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), bugs as BadRequestObjectResult);
         }
 
@@ -157,4 +152,3 @@ namespace WEB_API_Tests
         }
     }
 }
-

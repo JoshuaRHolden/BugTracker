@@ -80,8 +80,6 @@ namespace BugTrack_UI.Areas.Identity.Pages.Account
             [Display(Name = "Surname")]
             public string LastName { get; set; }
 
-
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -101,7 +99,6 @@ namespace BugTrack_UI.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {

@@ -1,11 +1,8 @@
-﻿using AppData.Models;
-using BugTrack_UI.Store.Actions;
+﻿using BugTrack_UI.Store.Actions;
 using Fluxor;
 
 namespace BugTrack_UI.Store.Effects
 {
-
-
     public class AssignedToMeCheckChangedEffect : Effect<AssignedToMeCheckChangedEffect.EffectCheckChanged>
     {
         public record EffectCheckChanged(bool selected);

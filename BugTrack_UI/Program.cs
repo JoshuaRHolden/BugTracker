@@ -1,13 +1,11 @@
-using System.Runtime.CompilerServices;
 using BugTrack_UI.Areas.Identity;
 using BugTrack_UI.Context;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-[assembly: InternalsVisibleTo("BUGTRACK_UI_Tests")]
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("BUGTRACK_UI_Tests")]
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -37,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");    
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 //app.UseHttpsRedirection();
@@ -49,8 +47,4 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 app.UseForwardedHeaders();
 
-
 app.Run();
-
-
-
