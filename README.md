@@ -40,7 +40,7 @@ Once an account has been created you may then log in and use the application.
 
 The application consists of 2 "pages", Users, and Bugs.
 On the bug page you can add new bugs, edit bugs and search in real time, there are also filters that can be enabled to show closed bugs and display only ones assigned to yourself.
-On the user page, you can reset passwords for existing users and change the users name and other properties as well as being able to delete users from the database.
+On the user page, you can change the users name and other properties as well as being able to delete users from the database or even create brand new application users.
 
 
 **IDEAL ENHANCMENTS**  
