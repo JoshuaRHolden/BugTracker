@@ -32,7 +32,7 @@ namespace BugTrack_WEB_API.Controllers
                     return BadRequest(new { Message = "No bugs exist" });
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
                 //TO DO LOG!
                 return BadRequest(new { Message = "An error occured while requesting your bugxs, if this continues to happen please contact your support representitive, the error has been logged. " });

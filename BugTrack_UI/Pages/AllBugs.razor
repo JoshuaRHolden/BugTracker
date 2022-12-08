@@ -97,9 +97,12 @@
 
     protected void CheckboxChanged(ChangeEventArgs e)
     {
-        var x = bool.Parse(e!.Value!.ToString()!);
-        _Dispatcher.Dispatch(new AssignedToMeCheckChangedEffect.EffectCheckChanged(x));
-        _Dispatcher.Dispatch(new LoadBugEffect.EffectBugAction(BugState.Value.AssignedToMe,BugState.Value.IncludeClosed));
+        if (e is not null && e.Value is not null)
+        {
+            var x = bool.Parse(e!.Value!.ToString()!);
+            _Dispatcher.Dispatch(new AssignedToMeCheckChangedEffect.EffectCheckChanged(x));
+            _Dispatcher.Dispatch(new LoadBugEffect.EffectBugAction(BugState.Value.AssignedToMe, BugState.Value.IncludeClosed));
+        }
     }
 
     protected void CheckboxIncludeClosedChanged(ChangeEventArgs e)

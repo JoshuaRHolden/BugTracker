@@ -10,7 +10,7 @@
     {
         base.OnInitialized();
         var user = (await AuthStat).User;
-        if (!user.Identity.IsAuthenticated)
+        if (!user!.Identity!.IsAuthenticated)
         {
             NavigationManager.NavigateTo("Identity/Account/Login", true);
         }
