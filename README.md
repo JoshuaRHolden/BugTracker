@@ -1,5 +1,7 @@
 **Installation Guide**
 
+**Please note this application is written in .Net 7, and as such, if not already installed will need the runtimes downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)**
+
  1. Clone the solution from: [https://github.com/JoshuaRHolden/BugTracker](https://github.com/JoshuaRHolden/BugTracker)  
 
 > (Please note sometimes the following file, once cloned to local
@@ -13,7 +15,7 @@
  4. Change directory to the subdirectory: **"BUGTRACK_WEB_API"**
  5. Type: _**“dotnet run”**_ and press enter.  
  6. Open up a _new_ command prompt whilst keeping the original one open, change directory to the project solution again, but this time to the directory: **“/BUGTRACK_UI”**
- 7. o create the compact database run the following command: **“dotnet ef database update”**.
+ 7. To create the compact database run the following command: **“dotnet ef database update”**.
  8.  Once the database has finished creating, type _**“dotnet run”**_ and press enter.  
 
 If the above steps were completed with success this will run both the API and the UI in kestrel web server, navigate to: **[https://localhost:7041/](https://localhost:7041/)** to start using the application.
