@@ -127,7 +127,7 @@ namespace WEB_API_Tests
         {
             var bugs = _BugController!.CreateBug(new Bug { Id = null });
             var Result = (bugs as BadRequestObjectResult)!.Value;
-            Assert.AreEqual("{ Message = Please provide a bug title and description  }", Result!.ToString());
+            Assert.AreEqual("Please provide a bug title and description", Result!.ToString());
             Assert.IsInstanceOf(typeof(BadRequestObjectResult), bugs as BadRequestObjectResult);
         }
 
