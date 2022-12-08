@@ -19,6 +19,7 @@
 If the above steps were completed with success this will run both the API and the UI in kestrel web server, navigate to: **[https://localhost:7041/](https://localhost:7041/)** to start using the application.
 
 **ARCHITECTURE** 
+
 BugTrack uses WEBAPI with entity framework (hooked up to SQL Compact, but this can easily be changed if required) for the back-end data access.
 The API is currently un-authenticated as with this being a BLAZOR server application all API calls are made from the server side, as such in a production environment the API would be tied down with firewall rules and bearer authorisation would be overkill.
 
@@ -26,9 +27,11 @@ For the client side, the application uses BLAZOR server and fluxor to create a s
 Authorisation is performed using ASP.net Identity.
 
 **TESTS**
+
 The application has a suite of tests for the WEB API covering both "happy" and "sad" paths, but due to time limitations I omitted any UI tests, because at this point BLAZOR UI unit testing is time intensive to set up using BUnit.
 
 **USAGE**
+
 The application when first visited will bounce you to the login page, a new account will need to be created, in a production environment this would send emails to request confirmation of email account etc but to streamline development and for ease of use this has been disabled.
 
 Once an account has been created you may then log in and use the application.
@@ -38,7 +41,7 @@ On the bug page you can add new bugs, edit bugs and search in real time, there a
 On the user page, you can reset passwords for existing users and change the users name and other properties as well as being able to delete users from the database.
 
 
-**Ideal Enhancements**  
+**IDEAL ENHANCMENTS**  
   
 i: Delete bug (although cancelling allows a bug to be hidden It would probably be useful to be able to fully delete a bug, but this was not included in the specification) 
 
