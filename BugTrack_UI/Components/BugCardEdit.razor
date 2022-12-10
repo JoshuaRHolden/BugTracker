@@ -20,9 +20,9 @@
             <small class="m-1 p-1">Status: @TheBug.BugStatus</small><br />
             <small class="m-1 p-1">Assignee: @TheBug.AssignedTo</small><br />
          <div class="text-center">
-                <button type="button" @onclick="() => EditCurrentBug(TheBug.Id.Value)"class="btn btn-outline-dark btn-sm mt-auto ">
-                    <span class="oi oi-pencil" aria-hidden="true"></span>
-                    <br/>
+             <br/>
+                <button type="button" @onclick="() => EditCurrentBug(TheBug.Id.Value)"class="btn btn-outline-dark btn-sm ">                    
+                    <span class="oi oi-pencil" aria-hidden="true"></span>                    
                     Edit Bug
                 </button>
          </div>
