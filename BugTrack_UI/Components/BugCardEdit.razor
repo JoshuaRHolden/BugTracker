@@ -8,13 +8,14 @@
 <div class="col-md-6 col-lg-3 ">
     <div class="card border-dark mb-3 h-100 g-4">
         <div class="card-header">
-            <h5 class="card-title">@TheBug.Title</h5>
+            <small class="card-title">@TheBug.Title</small>
         </div>
         <div class="card-body m-0 p-0">
-            <p class="m-1 p-1">Bug Id: @TheBug.Id</p>
-            <p class="m-1 p-1">Priority: @TheBug.PriorityStatus</p>
-            <p class="m-1 p-1">Status: @TheBug.BugStatus</p>
-            <p class="m-1 p-1">Assignee: @TheBug.AssignedTo</p>
+            <small class="m-1 p-1">Bug Id: @TheBug.Id</small> <br />
+            <small class="m-1 p-1">Priority: @TheBug.PriorityStatus</small><br />
+            <small class="m-1 p-1">Description: @(TheBug.Description.Length >60 ? @TheBug.Description.Substring(0,50) + "..." : TheBug.Description)</small><br />
+            <small class="m-1 p-1">Status: @TheBug.BugStatus</small><br />
+            <small class="m-1 p-1">Assignee: @TheBug.AssignedTo</small><br />
         </div>
         <div class="card-footer text-center">
 

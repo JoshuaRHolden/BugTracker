@@ -51,7 +51,7 @@
                             </InputSelect>
                         </div>
                         <div class="mb-3">
-                            <label for="editBugStatus" class="form-label">Bug Description</label>
+                            <label for="editBugStatus" class="form-label">Bug Status</label>
                             <InputSelect class="form-select" id="editBugStatus" @bind-Value="EditingBug.BugStatus" rows="4" cols="50">
                                 @foreach (var stat in Enum.GetValues(typeof(BugStatus)))
                                 {
@@ -82,7 +82,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <h6 class="lead"><small>This bug was created by: @EditingBug.CreatedBy on @EditingBug.CreatedDate!.Value.ToShortDateString() and was last updated on @EditingBug.UpdatedDate!.Value.ToShortDateString() </small></h6>
+                    <h6 class="lead"><small>This bug was created by: @EditingBug.CreatedBy on @EditingBug.CreatedDate!.Value.ToShortDateString() and was last updated  at @string.Format("{0} {1}", EditingBug.UpdatedDate!.Value.ToShortTimeString(), EditingBug.UpdatedDate!.Value.Hour > 12 ? "PM" : "AM")  </small></h6>
                 </div>
 
             </div>
