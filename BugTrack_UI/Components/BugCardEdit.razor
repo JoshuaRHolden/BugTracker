@@ -9,22 +9,26 @@
     <div class="card border-dark mb-3 h-100 g-4">
         <div class="card-header">
             <small class="card-title">@TheBug.Title</small>
+            
         </div>
+       
         <div class="card-body m-0 p-0">
+          
             <small class="m-1 p-1">Bug Id: @TheBug.Id</small> <br />
             <small class="m-1 p-1">Priority: @TheBug.PriorityStatus</small><br />
             <small class="m-1 p-1">Description: @(TheBug.Description.Length >60 ? @TheBug.Description.Substring(0,50) + "..." : TheBug.Description)</small><br />
             <small class="m-1 p-1">Status: @TheBug.BugStatus</small><br />
             <small class="m-1 p-1">Assignee: @TheBug.AssignedTo</small><br />
+         <div class="text-center">
+                <button type="button" @onclick="() => EditCurrentBug(TheBug.Id.Value)"class="btn btn-outline-dark btn-sm mt-auto ">
+                    <span class="oi oi-pencil" aria-hidden="true"></span>
+                    <br/>
+                    Edit Bug
+                </button>
+         </div>
         </div>
-        <div class="card-footer text-center">
-
-            <button type="button" @onclick="() => EditCurrentBug(TheBug.Id.Value)" class="btn btn-outline-white">
-                <span class="oi oi-pencil" aria-hidden="true"></span>
-                Edit
-            </button>
-            <br />
-            <small class="text-muted">Bug logged by @TheBug.CreatedBy at <time>@TheBug.CreatedDate</time></small>
+        <div class="card-footer text-center"> 
+            <small style="font-size:small;">This bug was created by: @TheBug.CreatedBy on @TheBug.CreatedDate!.Value.ToShortDateString() and was last updated  at @string.Format("{0} {1}", TheBug.UpdatedDate!.Value.ToShortTimeString(), TheBug.UpdatedDate!.Value.Hour > 12 ? "PM" : "AM") </small>           
         </div>
     </div>
 </div>
