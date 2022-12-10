@@ -22,6 +22,7 @@ namespace BugTrack_UI.Store.Effects
             {
                 dispatcher.Dispatch(new LoadBugsAction());
                 _logger.LogInformation("Loading bugs...");
+                //artificial load, for loading effect.
                 Thread.Sleep(2000);
                 var url = _config.GetValue<string>("APIDetails:APIURI");
                 var client = _httpClient.CreateClient();
