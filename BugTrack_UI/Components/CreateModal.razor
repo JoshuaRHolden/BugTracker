@@ -87,6 +87,8 @@
     </div>
 }
 @code {
+
+    
     [Parameter]
     public Bug? EditingBug { get; set; } = new Bug();
 
@@ -107,14 +109,5 @@
         _Dispatcher.Dispatch(new CreateBugSaveEffect.EffectCreateBug(EditingBug!, user!.Identity!.Name!, BugState.Value.AssignedToMe,BugState.Value.IncludeClosed));
     }
 
-
-
-    private void CloseModal()
-    {
-       _Dispatcher.Dispatch(new CreateBugSaveCancelEffect.EffectCreateCancelBug());
-       
-
-    }
-
-
-}
+    private void CloseModal() => _Dispatcher.Dispatch(new CreateBugSaveCancelEffect.EffectCreateCancelBug());
+  }
