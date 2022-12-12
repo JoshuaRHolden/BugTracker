@@ -128,3 +128,17 @@ a, .btn-link {
         color: white;
         background-color: black;
     }
+
+footer {
+    position: relative;
+    margin-top: -50px; /* negative value of footer height */
+    height: 50px;
+    clear: both;
+    background-color: white;
+    color: black;
+}
+
+.content {
+    padding-bottom: 70px;
+    min-height: 100%;
+}

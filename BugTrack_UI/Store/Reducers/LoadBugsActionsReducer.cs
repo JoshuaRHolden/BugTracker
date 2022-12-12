@@ -7,6 +7,10 @@ namespace BugTrack_UI.Store.Reducers
     public static class LoadBugActionsReducer
     {
         [ReducerMethod]
+        public static BugState ReduceCancelCreateBugsAction(BugState state,  CloseCreateModalAction action) =>
+        state with { CreateBug = null };
+
+        [ReducerMethod]
         public static BugState ReduceLoadBugsAction(BugState state, StartSearchAction action) =>
          state with { IsLoading = true, Messages = $"called reducer method StartSearchAction with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
 
@@ -24,11 +28,11 @@ namespace BugTrack_UI.Store.Reducers
 
         [ReducerMethod]
         public static BugState OnOpenCreateBug(BugState state, ActionCreateBug action) =>
-       state with { CreateBug = action.newBug, Messages = $"called reducer method OnSaveCreateBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
+       state with { CreateBug = action.newBug, Messages = $"called reducer method OnOpenCreateBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
 
         [ReducerMethod]
-        public static BugState OnOpenCreateBug(BugState state, ActionCreateSaveBug action) =>
-       state with { CreateBug = null, Messages = $"called reducer method OnSaveCreateBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
+        public static BugState OnOpenCreateSaveBug(BugState state, ActionCreateSaveBug action) =>
+       state with { CreateBug = null, Messages = $"called reducer method OnOpenCreateSaveBug with state values IsLoading:{state.IsLoading}, search text:{state.SearchText}  " };
 
         [ReducerMethod]
         public static BugState ReduceLoadBugsuccessAction(BugState state, LoadBugSuccessAction action) =>

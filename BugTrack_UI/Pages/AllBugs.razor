@@ -50,8 +50,6 @@
         <div class="dropdown-divider"></div>
         <BugTrack_UI.Components.EditModal CurrentBug="@BugState.Value.CurrentBug"></BugTrack_UI.Components.EditModal>
         <BugTrack_UI.Components.CreateModal EditingBug="bug"></BugTrack_UI.Components.CreateModal>
-        @{
-        }
         <div class="row row-cols-1 row-cols-md-3 g-4">
             @if (BugState.Value.HasCurrentErrors)
             {

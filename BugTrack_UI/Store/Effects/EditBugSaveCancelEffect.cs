@@ -15,7 +15,7 @@ namespace BugTrack_UI.Store.Effects
 
         public override async Task HandleAsync(EffectSaveCancelBug action, IDispatcher dispatcher)
         {
-            dispatcher.Dispatch(new ActionSaveBug());
+            dispatcher.Dispatch(new LoadBugsAction());
         }
     }
 }
