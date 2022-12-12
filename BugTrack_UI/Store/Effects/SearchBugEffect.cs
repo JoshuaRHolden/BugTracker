@@ -1,4 +1,5 @@
 ﻿using AppData.Models;
+using BugTrack_UI.Services;
 using BugTrack_UI.Store.Actions;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -9,12 +10,11 @@ namespace BugTrack_UI.Store.Effects
     {
         public record EffectSearchBug(String SearchTerm, bool MyAssigned, bool IncludeCancelled);
         private readonly ILogger<SearchBugEffect> _logger;
-        private readonly IHttpClientFactory _httpClient;
-        private readonly IConfiguration _config;
+        private readonly IHttpService _httpService;
         private AuthenticationStateProvider _authentication;
 
-        public SearchBugEffect(ILogger<SearchBugEffect> logger, IHttpClientFactory httpClient, IConfiguration config, AuthenticationStateProvider authentication) =>
-            (_logger, _httpClient, _config, _authentication) = (logger, httpClient, config, authentication);
+        public SearchBugEffect(ILogger<SearchBugEffect> logger, IHttpService httpService, AuthenticationStateProvider authentication) =>
+            (_logger, _httpService, _authentication) = (logger, httpService, authentication);
 
         public override async Task HandleAsync(EffectSearchBug action, IDispatcher dispatcher)
         {
@@ -22,10 +22,7 @@ namespace BugTrack_UI.Store.Effects
             {
                 dispatcher.Dispatch(new StartSearchAction());
                 _logger.LogInformation("Loading bugs...");
-                var url = _config.GetValue<string>("APIDetails:APIURI");
-                var client = _httpClient.CreateClient();
-                //throw new Exception("bug/!!");
-                var bugResponse = await client.GetFromJsonAsync<List<Bug>?>(url + $"/bug/SearchBugs?SearchQuery={action.SearchTerm}");
+                var bugResponse = await _httpService.SearchBugList(action.SearchTerm);
                 if (action.MyAssigned)
                 {
                     var authstate = await _authentication.GetAuthenticationStateAsync();

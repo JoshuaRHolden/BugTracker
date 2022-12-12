@@ -1,12 +1,16 @@
 using BugTrack_UI.Areas.Identity;
 using BugTrack_UI.Context;
+using BugTrack_UI.Services;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("BUGTRACK_UI_Tests")]
-
+IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+       .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+IConfiguration config = configBuilder.Build();
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -20,6 +24,7 @@ builder.WebHost.UseStaticWebAssets();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<Data.Models.ApplicationUser>>();
+builder.Services.AddScoped<IHttpService,HttpService>();
 builder.Services.AddFluxor(o => o.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools());
 builder.WebHost.UseKestrel(serverOptions =>
 {

@@ -7,12 +7,10 @@ namespace BugTrack_UI.Store.Effects
     public class CreateBugStartEffect : Effect<CreateBugStartEffect.EffectStartCreateBug>
     {
         public record EffectStartCreateBug();
-        private readonly ILogger<CreateBugStartEffect> _logger;
-        private readonly IHttpClientFactory _httpClient;
-        private readonly IConfiguration _config;
+        private readonly ILogger<CreateBugStartEffect> _logger;        
 
-        public CreateBugStartEffect(ILogger<CreateBugStartEffect> logger, IHttpClientFactory httpClient, IConfiguration config) =>
-            (_logger, _httpClient, _config) = (logger, httpClient, config);
+        public CreateBugStartEffect(ILogger<CreateBugStartEffect> logger) =>
+            (_logger ) = (logger);
 
         public override async Task HandleAsync(EffectStartCreateBug action, IDispatcher dispatcher)
         {

@@ -1,4 +1,5 @@
 ﻿using AppData.Models;
+using BugTrack_UI.Services;
 using BugTrack_UI.Store.Actions;
 using Fluxor;
 
@@ -8,22 +9,17 @@ namespace BugTrack_UI.Store.Effects
     {
         public record EffectEditBug(int Id);
         private readonly ILogger<EditBugEffect> _logger;
-        private readonly IHttpClientFactory _httpClient;
-        private readonly IConfiguration _config;
+        private readonly IHttpService _httpService;
 
-        public EditBugEffect(ILogger<EditBugEffect> logger, IHttpClientFactory httpClient, IConfiguration config) =>
-            (_logger, _httpClient, _config) = (logger, httpClient, config);
+        public EditBugEffect(ILogger<EditBugEffect> logger, IHttpService httpService) =>
+            (_logger,_httpService) = (logger,  httpService);
 
         public override async Task HandleAsync(EffectEditBug action, IDispatcher dispatcher)
         {
             try
             {
-                _logger.LogInformation("Loading bug...");
-                var url = _config.GetValue<string>("APIDetails:APIURI");
-                var client = _httpClient.CreateClient();
-                //throw new Exception("bug/!!");
-                var bugResponse = await client.GetFromJsonAsync<Bug>(url + $"/Bug/GetBugById?Id={action.Id}");
-
+                _logger.LogInformation("Loading bug...");                                
+                var bugResponse = await _httpService.GetBugByID(action.Id);
                 _logger.LogInformation("bugs loaded successfully!");
                 dispatcher.Dispatch(new ActionEditBug(bugResponse!));
             }
