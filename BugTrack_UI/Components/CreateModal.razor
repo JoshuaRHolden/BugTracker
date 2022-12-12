@@ -38,6 +38,7 @@
                         <div class="mb-3">
                             <label for="editBugStatus" class="form-label">Bug Status</label>
                             <InputSelect class="form-select" id="editBugStatus" @bind-Value="EditingBug.BugStatus" rows="4" cols="50">
+                                <option selected value=""></option>
                                 @foreach (var stat in Enum.GetValues(typeof(BugStatus)))
                                 {
                                     <option value="@stat">@stat</option>
@@ -47,6 +48,7 @@
                         <div class="mb-3">
                             <label for="editBugPriority" class="form-label">Bug Priority</label>
                             <InputSelect class="form-select" id="editBugPriority" @bind-Value="EditingBug.PriorityStatus">
+                                <option selected value=""></option>
                                 @foreach (var pstat in Enum.GetValues(typeof(Priority)))
                                 {
                                     <option value="@pstat">@pstat</option>
@@ -58,6 +60,7 @@
                         <div class="mb-3">
                             <label for="editBugAssignee" class="form-label">Bug Assignee</label>
                             <InputSelect class="form-select" id="editSetAssignee" @bind-Value="EditingBug.AssignedTo">
+                                <option selected value=""></option>
                                 @foreach (var u in Users!)
                                 {
                                     <option value="@u.Email">@u.Email</option>
@@ -91,8 +94,8 @@
 
     protected override Task OnParametersSetAsync()
     {
-        EditingBug!.PriorityStatus = Priority.Low;
-        EditingBug.BugStatus = BugStatus.Open;
+        EditingBug!.PriorityStatus = null;
+        EditingBug.BugStatus = null;
         Users = _userManager.Users;
         return base.OnParametersSetAsync();
     }
