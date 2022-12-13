@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using BugTrack_UI.Areas.Identity;
 using BugTrack_UI.Context;
 using BugTrack_UI.Services;
@@ -19,6 +20,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<Data.Models.ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddQuickGridEntityFrameworkAdapter();
+builder.Services.AddBlazoredToast();
 builder.Services.AddRazorPages();
 builder.WebHost.UseStaticWebAssets();
 builder.Services.AddServerSideBlazor();

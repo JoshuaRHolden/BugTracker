@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor-Bootstrap-Toasts" Version="1.0.1" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="5.6.0" />
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="0.1.0-alpha.22351.1" />

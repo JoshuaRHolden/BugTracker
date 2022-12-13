@@ -13,7 +13,7 @@ namespace AppData.Models
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
         public DateTime? UpdatedDate { get; } = DateTime.Now;
         public string? CreatedBy { get; set; }
-
+        [Required]
         public String? AssignedTo { get; set; }
         [Required]
 

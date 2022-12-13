@@ -1,10 +1,14 @@
 ﻿@using BugTrack_UI.Components
+@using BugTrack_UI.Services;
 @using BugTrack_UI.UIModels;
 @using Data.Models;
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.AspNetCore.Identity;
+@using Blazored.Toast.Configuration;
 @inject UserManager<ApplicationUser> _userManager;
 @inject IJSRuntime ijsr;
+@inject IHttpService _httpService;
+@inject IToastService _toastService;
 @page "/UserManagment"
 
 
@@ -154,6 +158,14 @@
         </QuickGrid>
         <Paginator Value="@pagination" />
         <br />
+            <BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="10">
+                    <CloseButtonContent>
+                    <div>
+                    <span><i class="oi oi-x float-end"></i></span>
+                    </div>
+                    </CloseButtonContent>
+            </BlazoredToasts>
 
 @code {
     private IQueryable<ApplicationUser>? Users { get; set; }
@@ -167,7 +179,7 @@
     private string? CreatingAlert { get; set; }
     QuickGrid<ApplicationUser>? userGrid;
     PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
-    
+
     protected override async Task OnInitializedAsync()
     {
         IQueryable<Data.Models.ApplicationUser> users = _userManager.Users;
@@ -243,16 +255,25 @@
     }
     private async void DeleteUser(ApplicationUser user)
     {
-        bool confirmed = await ijsr.InvokeAsync<bool>("confirm", "Are you sure?");
+        bool confirmed = await ijsr.InvokeAsync<bool>("confirm", "Are you sure you want to delete this user?");
         if (confirmed)
         {
-            CurrentUser = user;
-            DeletedText = $"Succesfully deleted user:{user.FirstName}";
-            Deleting = true;
-            var deleteUser = await _userManager.FindByNameAsync(user!.UserName!);
-            IdentityResult result = await _userManager.DeleteAsync(deleteUser!);
-            Deleting = true;
-            await userGrid!.RefreshDataAsync();
+            var userBugs = await _httpService.GetBugList();
+            if (!userBugs.Any(x => x.CreatedBy == user.UserName))
+            {
+                CurrentUser = user;
+                DeletedText = $"Succesfully deleted user:{user.FirstName}";
+                Deleting = true;
+                var deleteUser = await _userManager.FindByNameAsync(user!.UserName!);
+                IdentityResult result = await _userManager.DeleteAsync(deleteUser!);
+                Deleting = true;
+                await userGrid!.RefreshDataAsync();
+            }
+            else
+            {
+                _toastService.ShowWarning("This user has assigned bugs, please re-allocate before deleting.");
+            }
+            
         }
     }
 }
