@@ -11,7 +11,7 @@
 > “unblock” radio button and accept the change.)
 
  2. Open up a command prompt and change to the directory containing the solution cloned from git.
- 3. In the root of the directory run the command: _**“dotnet restore”**_, when that completes subsequently run “dotnet build”
+ 3. In the root of the directory run the command: _**“dotnet restore”**_, then _**"dotnet tool restore"**_ finally when that completes subsequently run _**“dotnet build”**_.
  4. Change directory to the subdirectory: **"BUGTRACK_WEB_API"**
  5. Type: _**“dotnet run”**_ and press enter.  
  6. Open up a _new_ command prompt whilst keeping the original one open, change directory to the project solution again, but this time to the directory: **“/BUGTRACK_UI”**
