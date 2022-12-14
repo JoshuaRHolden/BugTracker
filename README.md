@@ -43,6 +43,8 @@ From the root directory in a console window, simply type `dotnet test`
 
 The application has a suite of tests for the WEB API covering both "happy" and "sad" paths, but due to time limitations I omitted any UI tests, because at this point BLAZOR UI unit testing is time intensive to set up using BUnit.
 
+Furthermore, the repository is hooked up to github actions to automatically run the tests and build on any changes alerting me to any failures.
+
 **4:Architecture**
 ---------------
 
