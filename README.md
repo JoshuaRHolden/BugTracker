@@ -1,11 +1,14 @@
 
-**Installation Guide**
+<ins>**Installation and usage guide**</ins>
+===============
 
 **1: Prerequisites** 
+---------------
 
 *This application is written in .Net 7, and as such, if not already installed will need the .net 7 SDK downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)*
 
 **2: Running the application**
+---------------
 
  1. Clone the solution from: [https://github.com/JoshuaRHolden/BugTracker](https://github.com/JoshuaRHolden/BugTracker)  
 
@@ -34,11 +37,14 @@ If the above steps were completed with success this will run both the API and th
 > Alternatively, open up the .sln file in visual studio and just run it from visual studio after typing the following into NuGet package manager console targeting the UI : `update-database` to create the database.
 
 **3:Testing**
+---------------
+
 From the root directory in a console window, simply type `dotnet test`
 
 The application has a suite of tests for the WEB API covering both "happy" and "sad" paths, but due to time limitations I omitted any UI tests, because at this point BLAZOR UI unit testing is time intensive to set up using BUnit.
 
-**4:Architecture** 
+**4:Architecture**
+---------------
 
 BugTrack uses WEBAPI with entity framework (hooked up to SQL Compact, but this can easily be changed if required) for the back-end data access.
 The API is currently un-authenticated as with this being a BLAZOR server application all API calls are made from the server side, as such in a production environment the API would be tied down with firewall rules and bearer authorisation would be overkill.
@@ -48,6 +54,7 @@ Authorisation and user management is performed using ASP.net Identity.
 
 
 **5:Usage**
+---------------
 
 The application when first visited will bounce you to the login page, a new account will need to be created, in a production environment this would send emails to request confirmation of email account etc but to streamline development and for ease of use this has been disabled.
 
@@ -58,7 +65,8 @@ On the bug page you can add new bugs, edit bugs and search in real time, there a
 On the user page, you can change the users name and other properties as well as being able to delete users from the database or even create brand new application users.
 
 
-**6:Nice to haves**  
+**6:Nice to haves**
+---------------
   
 i: Delete bug (although closing allows a bug to be hidden It would probably be useful to be able to fully delete a bug, but this was not included in the specification) 
 
