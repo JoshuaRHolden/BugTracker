@@ -58,7 +58,9 @@ Authorisation and user management is performed using ASP.net Identity.
 
 The application when first visited will bounce you to the login page, a new account will need to be created, in a production environment this would send emails to request confirmation of email account etc but to streamline development and for ease of use this has been disabled.
 
-Once an account has been created you may then log in and use the application.
+The site is also fully functional and should display correctly and be fully usable on any device.
+
+Once an account has been created using the register link you may then log in and use the application.
 
 The application consists of 2 "pages", Users, and Bugs.
 On the bug page you can add new bugs, edit bugs and search in real time, there are also filters that can be enabled to show closed bugs and display only ones assigned to yourself.
