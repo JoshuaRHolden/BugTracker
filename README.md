@@ -32,26 +32,22 @@
 If the above steps were completed with success this will run both the API and the UI in kestrel web server, navigate to: **[https://localhost:7041/](https://localhost:7041/)** to start using the application.
 
 > Alternatively, open up the .sln file in visual studio and just run it from visual studio after typing the following into NuGet package manager console targeting the UI : `update-database` to create the database.
-> 
 
 **3:Testing**
-
 From the root directory in a console window, simply type `dotnet test`
 
-The application has a suite of tests for the WEB API covering both "happy" and "sad" paths, but due to time limitations I omitted any UI tests, because at this point BLAZOR UI unit testing is time intensive to set up using BUnit.
-
-
 **4:Architecture** 
-
 BugTrack uses WEBAPI with entity framework (hooked up to SQL Compact, but this can easily be changed if required) for the back-end data access.
 The API is currently un-authenticated as with this being a BLAZOR server application all API calls are made from the server side, as such in a production environment the API would be tied down with firewall rules and bearer authorisation would be overkill.
 
 For the client side, the application uses BLAZOR server and fluxor to create a single state application store which operates in much the same way as Redux would with react for example.
 Authorisation and user management is performed using ASP.net Identity.
 
+**TESTS**
 
+The application has a suite of tests for the WEB API covering both "happy" and "sad" paths, but due to time limitations I omitted any UI tests, because at this point BLAZOR UI unit testing is time intensive to set up using BUnit.
 
-**5:Usage**
+**USAGE**
 
 The application when first visited will bounce you to the login page, a new account will need to be created, in a production environment this would send emails to request confirmation of email account etc but to streamline development and for ease of use this has been disabled.
 
@@ -62,7 +58,7 @@ On the bug page you can add new bugs, edit bugs and search in real time, there a
 On the user page, you can change the users name and other properties as well as being able to delete users from the database or even create brand new application users.
 
 
-**IDEAL ENHANCMENTS**  
+**6: Nice to haves**  
   
 i: Delete bug (although closing allows a bug to be hidden It would probably be useful to be able to fully delete a bug, but this was not included in the specification) 
 
@@ -74,4 +70,9 @@ iiii: Client only view page, restricted to view only bugs personally logged (or 
 
 iiiii: Multi tenancy support.
 
-Iiiiii: Email support to email updates to bugs to the entity email who raised the bug.
+iiiiii: Email support to email updates to bugs to the entity email who raised the bug.
+
+iiiiiii: Enable CORS and content-security-policy... etc best security practice headers.
+
+iiiiiiii: virtualisation and pagination (forever load) on the bug cards and the ability to switch between card and grid view.
+
