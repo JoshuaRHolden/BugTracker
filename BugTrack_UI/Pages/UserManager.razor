@@ -200,6 +200,7 @@
     private async void CreateUser()
     {
         CreatingAlert = "";
+        //phone validation regex is not fun!
         if (!string.IsNullOrEmpty(CreatingUser.CreatingPhone) && (string.IsNullOrEmpty(CreatingUser.CreatingPhone) || !Regex.Match(CreatingUser.CreatingPhone, @"^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|\#)\d{3,4})?$", RegexOptions.IgnoreCase).Success))
         {          
                 CreatingAlert = "If a phone number is provided it must be a valid UK phone number for example:  +447984975570 or 07984975570 or 01904 331532 etc.";         
