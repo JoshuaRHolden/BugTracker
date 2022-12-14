@@ -83,3 +83,8 @@ iiii: Client only view page, restricted to view only bugs personally logged (or 
 iiiii: Multi tenancy support.
 
 Iiiiii: Email support to email updates to bugs to the entity email who raised the bug.
+
+**7:Security**
+---------------
+
+The site is scanned on each build automatically using CodeQL security scan in the pipeline using github actions.
