@@ -28,7 +28,7 @@
 
  6.   Open up a _new_ command prompt whilst keeping the original one open, change directory to the project solution again, but this time to the directory: **“/BUGTRACK_UI”**
  
- 7. To create the sql compact database run the following command: **“dotnet ef database update”**. from the bugtrack ui directory in the new console window.
+ 7. To create the sql compact database run the following command: `dotnet ef database update`. from the bugtrack ui directory in the new console window.
  
  8. Once the database has finished creating, type `dotnet run` and press enter
  
