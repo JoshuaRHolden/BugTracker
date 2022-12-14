@@ -3,7 +3,7 @@
 
 **1: Prerequisites** 
 
-*This application is written in .Net 7, and as such, if not already installed will need the .net 7 SDK downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)**
+*This application is written in .Net 7, and as such, if not already installed will need the .net 7 SDK downloading from: [https://dotnet.microsoft.com/en-us/download/dotnet/7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)*
 
 **2: Running the application**
 
