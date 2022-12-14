@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using Microsoft.AspNetCore.Identity;
 @using Blazored.Toast.Configuration;
+@using System.Text.RegularExpressions;
 @inject UserManager<ApplicationUser> _userManager;
 @inject IJSRuntime ijsr;
 @inject IHttpService _httpService;
@@ -199,15 +200,23 @@
     private async void CreateUser()
     {
         CreatingAlert = "";
-        if (CreatingUser.CreatingPassword != CreatingUser.CreatingConfirmPassword)
+        if (!string.IsNullOrEmpty(CreatingUser.CreatingPhone) && (string.IsNullOrEmpty(CreatingUser.CreatingPhone) || !Regex.Match(CreatingUser.CreatingPhone, @"^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|\#)\d{3,4})?$", RegexOptions.IgnoreCase).Success))
+        {          
+                CreatingAlert = "If a phone number is provided it must be a valid UK phone number for example:  +447984975570 or 07984975570 or 01904 331532 etc.";         
+        }
+        else if (CreatingUser.CreatingPassword is null || CreatingUser.CreatingConfirmPassword is null)
+        {
+            CreatingAlert = "Passwords must be entered.";
+        }
+        else if (CreatingUser.CreatingPassword != CreatingUser.CreatingConfirmPassword)
         {
             CreatingAlert = "Passwords must match.";
         }
-        else if (CreatingUser!.CreatingFirstName!.Length < 1 || CreatingUser!.CreatingSurname!.Length < 1)
+        else if (CreatingUser.CreatingFirstName is not null && CreatingUser.CreatingSurname is not null && (CreatingUser!.CreatingFirstName!.Length < 1 || CreatingUser!.CreatingSurname!.Length < 1))
         {
             CreatingAlert = "First and Surname fields must be filled in";
         }
-        else if (CreatingUser!.CreatingPassword!.Length <= 7 || !CreatingUser.CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch)))
+        else if (CreatingUser.CreatingPassword is not null && (CreatingUser!.CreatingPassword!.Length <= 7 || !CreatingUser.CreatingPassword.Any(ch => !char.IsLetterOrDigit(ch))))
         {
             CreatingAlert = "Password must be at least 7 characters long and contain a symbol such as:$ or %.";
         }
@@ -225,6 +234,10 @@
             await userGrid!.RefreshDataAsync();
         }
         StateHasChanged();
+        if(CreatingAlert != "")
+        {
+            _toastService.ShowWarning(CreatingAlert);
+        }
     }
 
     private  void CancelSaveUserChanges()
